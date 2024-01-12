@@ -21,7 +21,7 @@ export class Observable {
 	 * @param {T} data
 	 * @return {Observable<T>}
 	 */
-	static from(data) {
+	static of(data) {
 		return new Observable(data);
 	}
 
