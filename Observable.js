@@ -149,7 +149,7 @@ export class Observable {
 			// console.log(accesses);
 		}));
 
-		return html`<span ${ref} data-1="observing">${contents}</span>`;
+		return html`<span ${ref}>${contents}</span>`;
 	}
 
 	pushAccessTracking() {
