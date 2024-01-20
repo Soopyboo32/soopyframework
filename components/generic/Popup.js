@@ -57,6 +57,7 @@ let popupTitleCss = staticCss.named("popupTitle").css`${thisClass} {
  * @param onclose {() => any}
  */
 export function Popup(title, content, onclose = () => 0) {
+	let ref = useRef();
 	let wrapper = document.createElement("modal");
 
 	let closeFn = () => {
@@ -68,8 +69,8 @@ export function Popup(title, content, onclose = () => 0) {
 	let height = 0;
 
 	wrapper.className = wrapperCss.getAllClasses().join(" ");
-	wrapper.innerHTML = html`
-		<div ${popupCss}>
+	wrapper.innerHTML = html.withRef(ref)`
+		<div ${popupCss} ${ref}>
 			<div ${popupTopCss} data-height="${height+1}">
 				<div ${popupTitleCss}>
 					${title}
