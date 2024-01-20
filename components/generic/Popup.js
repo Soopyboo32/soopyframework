@@ -1,6 +1,6 @@
 import { html, staticCss, thisClass, useRef } from "../../helpers.js";
 import { colors, getBg } from "../../css.js";
-import { Icon } from "../../../renderer/Icon.js";
+import { Icon } from "./Icon.js";
 
 let wrapperCss = staticCss.named("popupWrapper").css`${thisClass} {
 	position: fixed;
