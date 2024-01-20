@@ -1,6 +1,6 @@
 import { css, html, staticCss, thisClass, useRef } from "../../helpers.js";
 import { colors, getBg } from "../../css.js";
-import { Icon } from "../../../renderer/Icon.js";
+import { Icon } from "./Icon.js";
 
 let cardCss = staticCss.named("card").css`${thisClass} {
 	display: flex;
