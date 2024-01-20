@@ -1,4 +1,4 @@
-import { css, html, staticCss, thisClass } from "../../helpers.js";
+import {css, html, staticCss, thisClass, useRef} from "../../helpers.js";
 
 let tableCss = staticCss.named("table").css`${thisClass} {
 	width: 100%;
@@ -11,8 +11,10 @@ let tableCss = staticCss.named("table").css`${thisClass} {
  * @returns {HTML}
  */
 export function Table(options, headerElms, ...rows) {
-	return html`
-		<table ${tableCss} ${css`
+	let ref = useRef();
+
+	return html.withRef(ref)`
+		<table ${ref} ${tableCss} ${css`
 			${options.centeredElms ? "text-align: center;" : ""}
 			${options.rightElms ? "text-align: right;" : ""}
 			${options.centeredElms || options.rightElms ? "font-family: 'Open Sans', sans-serif;" : ""}

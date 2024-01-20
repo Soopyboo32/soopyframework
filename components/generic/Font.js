@@ -1,4 +1,4 @@
-import { css, html } from "../../helpers.js";
+import {css, html, useRef} from "../../helpers.js";
 
 /**
  * @param font {string}
@@ -6,7 +6,9 @@ import { css, html } from "../../helpers.js";
  * @returns {HTML}
  */
 export function Font(font, elms) {
-	return html`
+	let ref = useRef();
+
+	return html.withRef(ref)`
 		<span ${css`
 			font-family: ${font};
 		`}>

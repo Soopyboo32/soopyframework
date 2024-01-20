@@ -44,13 +44,14 @@ let cardTitleCss = staticCss.named("cardTitle").css`${thisClass} {
 }`
 
 export function Card(title, contents, height=1, openFn) {
+	let cardRef = useRef();
 	let ref = useRef().onClick(() => {
 		if (!openFn) return;
 		openFn();
 	});
 
-	return html`
-		<div ${cardCss}>
+	return html.withRef(cardRef)`
+		<div ${cardCss} ${cardRef}>
 			<div ${cardTopCss} data-height="${height+1}">
 				<div ${cardTitleCss}>
 					${title}

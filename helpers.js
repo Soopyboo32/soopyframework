@@ -17,7 +17,12 @@
  */
 
 /**
- * @typedef {string} HTML
+ * @typedef {string} _HTML
+ *
+ * @typedef {Object} _HTML_PROPS
+ * @property {() => Reference|undefined} getRef
+ *
+ * @typedef {_HTML & _HTML_PROPS} HTML
  */
 
 /**
@@ -168,14 +173,21 @@ function onEventRaw(ref, event, callback) {
 }
 
 /**
- * @returns {string}
+ * @returns {HTML}
  */
 function toHtmlString(asd) {
-    let css = "";
+    let strVal = "";
     asd[0].forEach((s, i) => {
-        css += s + (asd[i + 1] || "");
+        strVal += s + (asd[i + 1] || "");
     });
-    return css;
+
+    let html = {
+        toString: () => strVal,
+        _ref: undefined,
+        getRef: () => html._ref
+    }
+
+    return html;
 }
 
 /**
@@ -186,6 +198,18 @@ function toHtmlString(asd) {
 export function html(...args) {
     return toHtmlString(args);
 }
+
+/**
+ * @param ref
+ * @returns {(...any) -> HTML}
+ */
+html.withRef = function (ref) {
+    return (...args) => {
+        let ret = toHtmlString(args);
+        ret._ref = ref;
+        return ret;
+    }
+};
 
 /**
  * @typedef {()=>Css} Css
