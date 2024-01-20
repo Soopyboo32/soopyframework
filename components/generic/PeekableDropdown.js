@@ -13,8 +13,8 @@ let peekableDropdownCss = staticCss.named("peekableDropdown").css`${thisClass} {
     transition: height 1s;
     overflow: hidden;
     -webkit-mask-image: -webkit-linear-gradient(
-            top,
-            rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)
+        top,
+        rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)
     );
 }`
 
