@@ -2,10 +2,13 @@ import {html, staticCss, thisClass, useRef} from "../../helpers.js";
 import {buttonCss} from "../../css.js";
 
 let peekableDropdownContainerCss = staticCss.named("peekableDropdownContainer").css`${thisClass} {
+    position: relative;
+}`
+
+let buttonContainerCss = staticCss.named("peekableDropdownButtonContainer").css`${thisClass} {
     display: flex;
     align-items: center;
     flex-direction: column;
-    position: relative;
 }`
 
 let peekableDropdownCss = staticCss.named("peekableDropdown").css`${thisClass} {
@@ -39,7 +42,7 @@ let peekableDropdownOpenButtonCss = buttonCss.named("peekableDropdownOpenButton"
     }
 }`
 
-export function PeekableDropdown(content, css = undefined, isOpen = false, onOpen = newVal => {
+export function PeekableDropdown(content, css = undefined, contentCss = undefined, isOpen = false, onOpen = newVal => {
 }) {
     let ref = useRef();
     let dropdownContentRef = useRef();
@@ -48,13 +51,14 @@ export function PeekableDropdown(content, css = undefined, isOpen = false, onOpe
     });
 
     let containerCss = css ? peekableDropdownContainerCss.merge(css) : peekableDropdownContainerCss;
+    let contentContainerCss = contentCss ? peekableDropdownCss.merge(containerCss) : peekableDropdownCss;
 
     return html.withRef(ref)`
         <div ${ref} ${containerCss}>
-            <div ${dropdownContentRef} ${peekableDropdownCss}>
+            <div ${dropdownContentRef} ${contentContainerCss}>
                 ${content}
             </div>
-            <button ${peekableDropdownOpenButtonCss} ${buttonRef}></button>
+            <div ${buttonContainerCss}><button ${peekableDropdownOpenButtonCss} ${buttonRef}></button></div>
         </div>
     `
 }
