@@ -8,6 +8,7 @@
  * @property {(data: String) => Reference} reRender
  * @property {(data: String) => Reference} renderInner
  * @property {(...any[]) => Reference} css
+ * @property {(css: Css | StaticCss) => Reference} toggleClass
  * @property {(callback: () => any, timeout: number) => Reference} interval
  * @property {(callback: () => any, timeout: number) => Reference} timeout
  * @property {() => boolean} exists
@@ -110,6 +111,16 @@ export function useRef() {
             elm.style = toCssString(args);
 
             return ref;
+        },
+        toggleClass: (css) => {
+            let elm = ref.getElm();
+            if (!elm) return
+
+            css.getAllClasses().forEach(c => {
+                elm.classList.toggle(c)
+            })
+
+            return this;
         },
         interval: (callback, timeout) => {
             if (!intervals.length) {
