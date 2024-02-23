@@ -5,6 +5,9 @@
  * @property {(callback: (MouseEvent) => any) => Reference} onHoverEnter
  * @property {(callback: (MouseEvent) => any) => Reference} onHoverMove
  * @property {(callback: (MouseEvent) => any) => Reference} onHoverExit
+ * @property {(callback: (Event) => any) => Reference} onChange
+ * @property {(callback: (KeyboardEvent) => any) => Reference} onKeyUp
+ * @property {(callback: (KeyboardEvent) => any) => Reference} onKeyDown
  * @property {(data: String) => Reference} reRender
  * @property {(data: String) => Reference} renderInner
  * @property {(...any[]) => Reference} css
@@ -12,6 +15,7 @@
  * @property {(callback: () => any, timeout: number) => Reference} interval
  * @property {(callback: () => any, timeout: number) => Reference} timeout
  * @property {() => boolean} exists
+ * @property {() => String} id
  * @property {() => HTMLElement | null} getElm
  * @property {(callback: () => any) => Reference} onRemove
  * @property {(observer: IntersectionObserver) => Reference} observe
@@ -41,6 +45,7 @@ export function useRef() {
      */
     let ref = {
         toString: () => `id="${id}"`,
+        getId: () => id,
         onClick: (callback) => {
             onEventRaw(ref, "click", callback);
             return ref;
@@ -63,6 +68,18 @@ export function useRef() {
         },
         onHoverExit: (callback) => {
             onEventRaw(ref, "mouseleave", callback);
+            return ref;
+        },
+        onChange: (callback) => {
+            onEventRaw(ref, "change", callback);
+            return ref;
+        },
+        onKeyDown: (callback) => {
+            onEventRaw(ref, "keydown", callback);
+            return ref;
+        },
+        onKeyUp: (callback) => {
+            onEventRaw(ref, "keyup", callback);
             return ref;
         },
         reRender: (data) => {
@@ -137,7 +154,7 @@ export function useRef() {
             }, timeout));
             return ref;
         },
-        timeout: (callback, timeout) => {
+        timeout: (callback, timeout = 0) => {
             if (!timeouts.length) {
                 ref.onRemove(() => {
                     for (let id of timeouts) {

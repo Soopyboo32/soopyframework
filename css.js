@@ -1,4 +1,4 @@
-import { staticCss, thisClass } from "./helpers.js";
+import {staticCss, thisClass} from "./helpers.js";
 
 export let colors = {
 	text: "rgb(229, 231, 235)",
@@ -20,11 +20,51 @@ staticCss`{
 	[data-height] {
 		background-color: ${getBg(0)};
 	}
-	${Array.from(Array(10)).map((_, i)=>`
+	${Array.from(Array(10)).map((_, i) => `
 		[data-height="${i}"] {
 			background-color: ${getBg(i)};
 		}
 	`).join("")}
+	
+	body {
+		color: ${colors.text}
+	}
+	
+	.chosen-container {
+		background-color: ${getBg(3)} !important;
+		border: 1px solid ${colors.primary} !important;
+		background-image: none !important;
+	}
+	
+	.chosen-container > .chosen-choices {
+		background-color: ${getBg(3)} !important;
+		background-image: none !important;
+		color: ${colors.text} !important;
+	}
+	
+	.chosen-container > .chosen-choices > .search-choice {
+		background-color: ${getBg(4)} !important;
+		border: 1px solid ${colors.primary} !important;
+		background-image: none !important;
+	}
+	
+	.chosen-container > .chosen-drop > .chosen-results {
+		background-color: ${getBg(3)} !important;
+		background-image: none !important;
+		color: ${colors.text} !important;
+	}
+	
+	.chosen-container > .chosen-drop > .chosen-results > .result-selected {
+		color: ${colors.grey} !important;
+	}
+	
+	.chosen-container > .chosen-drop > .chosen-results > .active-result {
+		color: ${colors.primary} !important;
+	}
+	
+	.chosen-container-multi .chosen-choices li.search-choice {
+		color: ${colors.text} !important;
+	}
 }`
 
 export let buttonCss = staticCss.named("button").css`{
@@ -32,6 +72,7 @@ export let buttonCss = staticCss.named("button").css`{
 		display: flex;
 		align-items: center;
 		height: 26px;
+		width: max-content;
 		margin: 10px;
 		text-align: center;
 		background-color: ${colors.primary_dark};
@@ -49,6 +90,10 @@ export let buttonCss = staticCss.named("button").css`{
 	${thisClass}:hover {
 		background-color: ${colors.primary_dark_hover};
 		cursor: pointer;
+	}
+
+	${thisClass}:disabled {
+		background-color: ${colors.grey};
 	}
 }`;
 
@@ -87,4 +132,50 @@ export let textboxCss = staticCss.named("textbox").css`{
 
 export let invisibleCss = staticCss.named("invisible").css`${thisClass} {
 	opacity: 0;
+}`;
+
+export let dropdownCss = staticCss.named("dropdown").css`{
+	${thisClass} {
+		height: 23px;
+		margin: 10px;
+		border: 1px solid transparent;
+		border-radius: 5px;
+		background-color: ${colors.primary_dark};
+		color: ${colors.text};
+		outline: none;
+	}
+
+	/*TODO: fix*/
+
+	${thisClass} > option:hover {
+		background-color: ${colors.primary};
+	}
+}`;
+
+export let checkboxCss = staticCss.named("checkbox").css`{
+	${thisClass} {
+		-webkit-appearance: none;
+		appearance: none;
+		/*background-color: #fff;*/
+		color: ${colors.primary};
+		width: 1.5em;
+		height: 1.5em;
+		border: 0.15em solid currentColor;
+		border-radius: 5px;
+		display: inline-flex;
+		justify-content: space-evenly;
+		align-items: center;
+		transition: 0.1s;
+	}
+
+	${thisClass}:checked {
+		background-color: ${colors.primary};
+	}
+
+	${thisClass}:checked::after {
+		color: white;
+		font-size: 1.3em;
+		content: "✔";
+		transform: translateY(-1px);
+	}
 }`;

@@ -10,11 +10,13 @@ let wrapperCss = staticCss.named("hover-wrapper").css`${thisClass} {
 	border-radius: 3px;
 	background: linear-gradient(to bottom, ${startColor}, ${endColor});
 	padding: 2px;
+	width: fit-content;
 }`;
 
 let internalCss = staticCss.named("hover-inner").css`${thisClass} {
 	padding: 4px;
 	background: #120313;
+	width: fit-content;
 }`;
 
 /**
@@ -72,8 +74,8 @@ function position(wrapper, e) {
 		right = true;
 	}
 	if (y > window.innerHeight - wrapper.clientHeight) {
-		y = window.innerHeight - e.x + 20;
-		right = true;
+		y = window.innerHeight - e.y - 20 - wrapper.clientHeight;
+		bottom = true;
 	}
 
 	if(x < 2) x = 2;
