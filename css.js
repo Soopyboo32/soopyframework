@@ -1,4 +1,4 @@
-import {staticCss, thisClass} from "./helpers.js";
+import { staticCss, thisClass } from "./helpers.js";
 
 export let colors = {
 	text: "rgb(229, 231, 235)",
@@ -65,7 +65,7 @@ staticCss`{
 	.chosen-container-multi .chosen-choices li.search-choice {
 		color: ${colors.text} !important;
 	}
-}`
+}`;
 
 export let buttonCss = staticCss.named("button").css`{
 	${thisClass} {
