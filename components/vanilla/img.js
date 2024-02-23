@@ -1,17 +1,24 @@
-import {css, html, useRef} from "../../helpers.js";
+import { css, html, useRef } from "../../helpers.js";
 
 let fixedCss = css;
 
-export function Img(url, {css = undefined, lazyLoad = true, fadeIfLoaded = false} = {}) {
-    let imageRef = useRef();
+export function Img(url, {
+	css = undefined,
+	cssRaw = undefined,
+	lazyLoad = true,
+	fadeIfLoaded = false,
+	width = undefined,
+	height = undefined
+} = {}) {
+	let imageRef = useRef();
 
-    let image = new Image();
-    image.src = url;
-    let cached = image.complete;
+	let image = new Image();
+	image.src = url;
+	let cached = image.complete;
 
-    let shouldFade = fadeIfLoaded || !cached;
+	let shouldFade = fadeIfLoaded || !cached;
 
-    return html.withRef(imageRef)`
+	return html.withRef(imageRef)`
 		<img
             src="${url}"
             ${imageRef}
@@ -19,9 +26,12 @@ export function Img(url, {css = undefined, lazyLoad = true, fadeIfLoaded = false
             ${shouldFade ? fixedCss`
                 transition: opacity 0.5s;
                 opacity: 0;
+                ${cssRaw}
             ` : ""}
+            ${width ? `width=${width}` : ""}
+            ${height ? `height=${height}` : ""}
             ${lazyLoad ? `loading="lazy"` : ""}
             ${shouldFade ? `onload="setTimeout(()=>this.style.opacity=1)"` : ""}
 		>
-    `
+    `;
 }
