@@ -27,7 +27,7 @@ export function Img(url, {
                 transition: opacity 0.5s;
                 opacity: 0;
                 ${cssRaw}
-            ` : ""}
+            ` : cssRaw}
             ${width ? `width=${width}` : ""}
             ${height ? `height=${height}` : ""}
             ${lazyLoad ? `loading="lazy"` : ""}
