@@ -143,13 +143,13 @@ export class Observable {
 		let ref = useRef().onRemove(this.onChange((path) => {
 			if (!accesses.has(path)) return;
 
-			accesses.clear()
-			setTimeout(()=>{ //prevent multiple re-renders in 1 update if its setting multiple things
+			accesses.clear();
+			setTimeout(() => { //prevent multiple re-renders in 1 update if its setting multiple things
 				this.pushAccessTracking();
 				ref.renderInner(fn());
 				accesses = this.popAccessTracking();
 				// console.log(accesses);
-			}, 0)
+			}, 0);
 		}));
 
 		return html`<span ${ref}>${contents}</span>`;
