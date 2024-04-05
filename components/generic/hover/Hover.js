@@ -11,6 +11,7 @@ let wrapperCss = staticCss.named("hover-wrapper").css`${thisClass} {
 	background: linear-gradient(to bottom, ${startColor}, ${endColor});
 	padding: 2px;
 	width: fit-content;
+	z-index: 2;
 }`;
 
 let internalCss = staticCss.named("hover-inner").css`${thisClass} {

@@ -118,7 +118,6 @@ export class Observable {
 	/**
 	 *
 	 * @param {(path: String, data: any) => any} cb
-	 * @returns
 	 */
 	onChange(cb) {
 		this.#cbArr.add(cb);
@@ -140,7 +139,7 @@ export class Observable {
 		//TODO: make this a debug function like Observable.debug() or smth
 		// console.log(accesses);
 
-		let ref = useRef().onRemove(this.onChange((path) => {
+		let ref = useRef().onRemove(this.onChange(path => {
 			if (!accesses.has(path)) return;
 
 			accesses.clear();

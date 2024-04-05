@@ -15,6 +15,7 @@ let wrapperCss = staticCss.named("popupWrapper").css`${thisClass} {
 	overflow-y: scroll;
 	overscroll-behavior: none;
 	backdrop-filter: blur(2px);
+	z-index: 2;
 }`;
 
 let popupCss = staticCss.named("popup").css`${thisClass} {

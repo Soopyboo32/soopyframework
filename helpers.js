@@ -9,14 +9,14 @@
  * @property {(callback: (Event) => any) => Reference} onChange
  * @property {(callback: (KeyboardEvent) => any) => Reference} onKeyUp
  * @property {(callback: (KeyboardEvent) => any) => Reference} onKeyDown
- * @property {(data: String) => Reference} reRender
- * @property {(data: String) => Reference} renderInner
+ * @property {(data: HTML | string) => Reference} reRender
+ * @property {(data: HTML | string) => Reference} renderInner
  * @property {(...any[]) => Reference} css
  * @property {(css: Css | StaticCss) => Reference} toggleClass
  * @property {(callback: () => any, timeout: number) => Reference} interval
  * @property {(callback: () => any, timeout: number) => Reference} timeout
  * @property {() => boolean} exists
- * @property {() => String} id
+ * @property {() => string} id
  * @property {() => HTMLElement | null} getElm
  * @property {(callback: () => any) => Reference} onRemove
  * @property {(observer: IntersectionObserver) => Reference} observe
