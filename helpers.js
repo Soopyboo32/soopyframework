@@ -287,12 +287,13 @@ function fromCssString(str) {
  * @typedef {()=>StaticCss} _StaticCss
  *
  * @typedef {Object} _CssProps
- * @property {() => String} getCss
+ * @property {() => string} getCss
  * @property {() => StaticCss} css
- * @property {() => String} getClassName
- * @property {() => String[]} getAllClasses
+ * @property {() => string} getClassName
+ * @property {() => string[]} getAllClasses
  * @property {(StaticCss) => StaticCss} merge
- * @property {(String) => StaticCss} named
+ * @property {(string) => StaticCss} mergeNamed
+ * @property {(string) => StaticCss} named
  *
  * @typedef {_StaticCss & _CssProps} StaticCss
  */
@@ -354,6 +355,9 @@ function fromStaticCssData(data, classes = [], nextName) {
 	};
 	ret.merge = (otherCss) => {
 		return fromStaticCssData([], [...classes, ...otherCss.getAllClasses(), ""]);
+	};
+	ret.mergeNamed = (otherCss) => {
+		return fromStaticCssData([], [...classes, otherCss, ""]);
 	};
 	ret.named = (id) => {
 		nextName = id;
