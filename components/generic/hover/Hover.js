@@ -78,9 +78,13 @@ function position(wrapper, e) {
 		y = window.innerHeight - e.y - 20 - wrapper.clientHeight;
 		bottom = true;
 	}
+	if (wrapper.clientHeight > window.innerHeight) {
+		y = 0;
+		bottom = false;
+	}
 
-	if(x < 2) x = 2;
-	if(y < 2) y = 2;
+	if (x < 2) x = 2;
+	if (y < 2) y = 2;
 
 	if (right) wrapper.style.right = x + "px";
 	else wrapper.style.left = x + "px";

@@ -81,11 +81,15 @@ export let buttonCss = staticCss.named("button").css`{
 		border-radius: 5px;
 		transition: 0.15s;
 		transition-timing-function: ease-in;
-		color: ${colors.text}; /* remove link color from <a> tags */
-		text-decoration: none; /* remove underline from <a> tags */
 		padding-block: 1px; /* yoinked these 2 from button css in chrome */
 		padding-inline: 6px; /* yoinked these 2 from button css in chrome */
 	}
+
+	${thisClass} > a {
+		color: ${colors.text}; /* remove link color from <a> tags */
+		text-decoration: none; /* remove underline from <a> tags */
+	}
+
 
 	${thisClass}:hover {
 		background-color: ${colors.primary_dark_hover};
