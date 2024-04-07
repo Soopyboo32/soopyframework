@@ -6,11 +6,12 @@ let endColor = "#180134";
 //TODO: better border
 let wrapperCss = staticCss.named("hover-wrapper").css`${thisClass} {
 	border: 1px solid #120313;
-	position: absolute;
+	position: fixed;
 	border-radius: 3px;
 	background: linear-gradient(to bottom, ${startColor}, ${endColor});
 	padding: 2px;
-	width: fit-content;
+	width: max-content;
+	height: max-content;
 	z-index: 2;
 }`;
 
@@ -70,21 +71,26 @@ function position(wrapper, e) {
 	let right = false;
 	let bottom = false;
 
-	if (x > window.innerWidth - wrapper.clientWidth) {
+	if (x + wrapper.offsetWidth > window.innerWidth) {
 		x = window.innerWidth - e.x + 20;
 		right = true;
 	}
-	if (y > window.innerHeight - wrapper.clientHeight) {
-		y = window.innerHeight - e.y - 20 - wrapper.clientHeight;
+	if (y > window.innerHeight - wrapper.offsetHeight) {
+		y = window.innerHeight - e.y - 20 - wrapper.offsetHeight;
 		bottom = true;
 	}
-	if (wrapper.clientHeight > window.innerHeight) {
+	if (wrapper.offsetHeight > window.innerHeight) {
 		y = 0;
 		bottom = false;
 	}
 
 	if (x < 2) x = 2;
 	if (y < 2) y = 2;
+
+	wrapper.style.left = "";
+	wrapper.style.right = "";
+	wrapper.style.top = "";
+	wrapper.style.bottom = "";
 
 	if (right) wrapper.style.right = x + "px";
 	else wrapper.style.left = x + "px";
