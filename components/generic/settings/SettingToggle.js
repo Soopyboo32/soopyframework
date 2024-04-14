@@ -37,10 +37,10 @@ let toggleCss = staticCss.named("toggle").css`{
 	${thisClass} > span:before {
 		position: absolute;
 		content: "";
-		height: calc(100% - 8px);
+		height: calc(100% - 10px);
 		aspect-ratio: 1;
-		left: 4px;
-		bottom: 4px;
+		left: 5px;
+		bottom: 5px;
 		background-color: white;
 		-webkit-transition: .2s;
 		transition: .2s;
@@ -56,6 +56,9 @@ let toggleCss = staticCss.named("toggle").css`{
 	}
 
 	input:checked + span:before {
+		left: 4px;
+		bottom: 4px;
+		height: calc(100% - 8px);
 		-webkit-transform: translateX(calc(3em - (1.5em - 8px) - 8px));
 		-ms-transform: translateX(calc(3em - (1.5em - 8px) - 8px));
 		transform: translateX(calc(3em - (1.5em - 8px) - 8px));

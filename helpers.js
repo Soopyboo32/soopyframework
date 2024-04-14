@@ -185,6 +185,7 @@ export function useRef() {
 
 /**
  * @param ref {Reference}
+ * @param event
  * @param callback
  */
 function onEventRaw(ref, event, callback) {
@@ -400,7 +401,7 @@ function generateClassName(id = "") {
 	return testId;
 }
 
-function generateId() {
+export function generateId() {
 	return Math.floor(Math.random() * 2400000).toString(16);
 }
 
