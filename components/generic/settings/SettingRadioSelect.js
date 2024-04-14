@@ -23,10 +23,10 @@ let radioCss = staticCss.named("radio-container").css`{
 }`;
 
 let selectedHighlightCss = staticCss.named("selected-highlight").css`${thisClass} {
-	transition: 0.3s;
+	transition: .2s;
 	z-index: -1;
 	position: absolute;
-	background-color: ${getBg(3)};
+	background-color: ${colors.grey};
 	border-radius: 10px;
 	border: 1px solid ${colors.primary_dark};
 	top: 3px;
