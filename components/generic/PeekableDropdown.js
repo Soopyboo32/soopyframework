@@ -16,8 +16,8 @@ let peekableDropdownCss = staticCss.named("peekableDropdown").css`${thisClass} {
     transition: height 1s;
     overflow: hidden;
     -webkit-mask-image: -webkit-linear-gradient(
-        top,
-        rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)
+            top,
+            rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)
     );
 }`
 
@@ -44,16 +44,22 @@ let peekableDropdownOpenButtonCss = buttonCss.named("peekableDropdownOpenButton"
 
 export function PeekableDropdown(content, css = undefined, contentCss = undefined, isOpen = false, onOpen = newVal => {
 }) {
-    let ref = useRef();
-    let dropdownContentRef = useRef();
-    let buttonRef = useRef().onClick(() => {
-        dropdownContentRef.toggleClass(peekableDropdownOpenCss);
-    });
+	let ref = useRef();
+	let dropdownContentRef = useRef();
+	let buttonRef = useRef().onClick(() => {
+		dropdownContentRef.toggleClass(peekableDropdownOpenCss);
+		isOpen = !isOpen;
+		onOpen(isOpen);
+	});
 
-    let containerCss = css ? peekableDropdownContainerCss.merge(css) : peekableDropdownContainerCss;
-    let contentContainerCss = contentCss ? peekableDropdownCss.merge(containerCss) : peekableDropdownCss;
+	let containerCss = css ? peekableDropdownContainerCss.merge(css) : peekableDropdownContainerCss;
+	let contentContainerCss = contentCss ? peekableDropdownCss.merge(containerCss) : peekableDropdownCss;
 
-    return html.withRef(ref)`
+	if (isOpen) {
+		contentContainerCss = contentContainerCss.merge(peekableDropdownOpenCss);
+	}
+
+	return html.withRef(ref)`
         <div ${ref} ${containerCss}>
             <div ${dropdownContentRef} ${contentContainerCss}>
                 ${content}
