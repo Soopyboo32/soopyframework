@@ -323,6 +323,7 @@ function toStaticCssData(asd) {
 			&& (
 				asd[i + 1].internal_isCssClassGetter === true
 				|| asd[i + 1].internal_isCssClassUUIDGetter === true
+				|| asd[i + 1].internal_isCssClassAnimGetter === true
 				|| asd[i + 1]._classType === "StaticCss"
 			)) {
 			css.push(asd[i + 1]);
@@ -367,6 +368,7 @@ function fromStaticCssData(data, classes = [], nextName) {
 	ret.getCss = () => val.map(d => {
 		if (d.internal_isCssClassGetter) return `.${classes[classes.length - 1]}`;
 		if (d.internal_isCssClassUUIDGetter) return `${classes[classes.length - 1]}`;
+		if (d.internal_isCssClassAnimGetter) return `anim--${classes[classes.length - 1]}--${d.animId}`;
 		if (d._classType === "StaticCss") return `.${d.getClassName()}`;
 
 		return d;
@@ -387,7 +389,11 @@ export let thisClass = {
 	internal_isCssClassGetter: true,
 	uuid: {
 		internal_isCssClassUUIDGetter: true,
-	}
+	},
+	animation: (id)=>({
+		internal_isCssClassAnimGetter: true,
+		animId: id
+	})
 };
 
 let generatedIds = new Set([""]);
