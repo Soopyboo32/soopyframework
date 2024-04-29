@@ -8,7 +8,8 @@ export let colors = {
 	//primary_dark: "rgb(147, 51, 234)", not desaturated
 	primary_dark_hover: "#6C2BB0",
 	grey: "rgb(55, 65, 81)",
-	error: "#CF6679"
+	error: "#CF6679",
+	gold: "#FFAA00"
 };
 
 export function getBg(height = 0) {
