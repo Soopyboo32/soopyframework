@@ -2,20 +2,39 @@ import { html, staticCss, thisClass, useRef } from "../../helpers.js";
 import { colors, getBg } from "../../css.js";
 import { Icon } from "./Icon.js";
 
-let wrapperCss = staticCss.named("popupWrapper").css`${thisClass} {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100vw;
-	height: 100vh;
-	background-color: rgba(0, 0, 0, 0.5);
-	display: flex;
-	justify-content: space-evenly;
-	flex-wrap: wrap;
-	overflow-y: scroll;
-	overscroll-behavior: none;
-	backdrop-filter: blur(2px);
-	z-index: 2;
+let wrapperCss = staticCss.named("popupWrapper").css`{
+	${thisClass} {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		background-color: rgba(0, 0, 0, 0.5);
+		display: flex;
+		justify-content: space-evenly;
+		flex-wrap: wrap;
+		overflow-y: scroll;
+		overscroll-behavior: none;
+		backdrop-filter: blur(2px);
+		z-index: 2;
+		animation-name: ${thisClass.animation("fadein")};
+		animation-duration: .5s;
+	}
+	
+	@keyframes ${thisClass.animation("fadein")} {
+		0% {
+			opacity: 0;
+			backdrop-filter: blur(0);
+			background-color: rgba(0, 0, 0, 0);
+		}
+		50% {
+			opacity: 1;
+		}
+		100% {
+			backdrop-filter: blur(2px);
+			background-color: rgba(0, 0, 0, 0.5);
+		}
+	}
 }`;
 
 let popupCss = staticCss.named("popup").css`${thisClass} {

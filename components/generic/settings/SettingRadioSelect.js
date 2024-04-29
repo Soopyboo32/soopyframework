@@ -20,6 +20,10 @@ let radioCss = staticCss.named("radio-container").css`{
 		-ms-user-select: none; /* IE 10 and IE 11 */
 		user-select: none; /* Standard syntax */
 	}
+	
+	${thisClass} > input[type="radio"]:not(:checked) + label {
+		cursor: pointer;
+	}
 }`;
 
 let selectedHighlightCss = staticCss.named("selected-highlight").css`${thisClass} {
