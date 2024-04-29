@@ -47,15 +47,15 @@ let toggleCss = staticCss.named("toggle").css`{
 		border-radius: 50%;
 	}
 
-	input:checked + span {
+	${thisClass} > input:checked + span {
 		background-color: ${colors.primary_dark};
 	}
 
-	input:focus + span {
+	${thisClass} > input:focus + span {
 		box-shadow: 0 0 5px ${colors.primary};
 	}
 
-	input:checked + span:before {
+	${thisClass} > input:checked + span:before {
 		left: 4px;
 		bottom: 4px;
 		height: calc(100% - 8px);
