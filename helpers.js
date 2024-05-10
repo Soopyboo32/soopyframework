@@ -277,7 +277,7 @@ function fromCssString(str) {
 
 		return fromCssString(val + css);
 	};
-	ret.toString = () => `style="${val.replace("\"", "\\\"").replace(/[\n\t]/g, "").replace(/;;+/g, ";")}"`;
+	ret.toString = () => `style="${val.replaceAll("\"", "\\\"").replaceAll(/[\n\t]/g, "").replaceAll(/;;+/g, ";")}"`;
 	ret.getRawCss = () => val;
 	ret._classType = "DynamicCss";
 
