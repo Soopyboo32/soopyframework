@@ -87,7 +87,6 @@ export function Popup(title, content, onclose = () => 0) {
 	let close = useRef().onClick(closeFn);
 
 	let height = 0;
-	console.log(content(closeFn).toString());
 
 	wrapper.className = wrapperCss.getAllClasses().join(" ");
 	wrapper.innerHTML = html.withRef(ref)`
