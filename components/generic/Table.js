@@ -8,7 +8,7 @@ let tableCss = staticCss.named("table").css`${thisClass} {
  * @param options {{centeredElms: boolean?, rightElms: boolean?}}
  * @param headerElms {HTML[]}
  * @param rows {...HTML[][]}
- * @returns {HTML}
+ * @returns {HTML_EXTENDED}
  */
 export function Table(options, headerElms, ...rows) {
 	let ref = useRef();

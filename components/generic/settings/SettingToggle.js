@@ -66,7 +66,7 @@ let toggleCss = staticCss.named("toggle").css`{
 }`;
 
 export function SettingToggle(enabled, updateFn) {
-	let checkboxRef = useRef().onChange(asd => {
+	let checkboxRef = useRef().onChange(e => {
 		let newVal = checkboxRef.getElm().checked;
 		updateFn(newVal);
 	});
