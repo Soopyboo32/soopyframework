@@ -1,7 +1,6 @@
 import { html, staticCss, thisClass, useRef } from "../../helpers.js";
 import { colors, getBg } from "../../css.js";
 import { Icon } from "./Icon.js";
-import { settings } from "../../../renderer/settings/settings.js";
 
 let wrapperCss = staticCss.named("popupWrapper").css`{
 	${thisClass} {
@@ -82,9 +81,9 @@ let popupTitleCss = staticCss.named("popupTitle").css`${thisClass} {
  * @param onclose {() => any}
  */
 export function Popup(title, content, onclose = () => 0) {
-	let ref = useRef().onRemove(settings.onChange((path, data) => {
+	let ref = useRef()/*.onRemove(settings.onChange((path, data) => {
 		ref.setClass(settings.get().centerPopups ? centeredPopupCss : popupCss);
-	}));
+	}))*/;
 	let wrapper = document.createElement("modal");
 
 	let closeFn = () => {
@@ -97,7 +96,7 @@ export function Popup(title, content, onclose = () => 0) {
 
 	wrapper.className = wrapperCss.getAllClasses().join(" ");
 	wrapper.innerHTML = html.withRef(ref)`
-		<div ${settings.get().centerPopups ? centeredPopupCss : popupCss} ${ref}>
+		<div ${/*settings.get().centerPopups ? centeredPopupCss : */popupCss} ${ref}>
 			<div ${popupTopCss} data-height="${height + 1}">
 				<div ${popupTitleCss}>
 					${title}
