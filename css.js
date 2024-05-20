@@ -31,6 +31,10 @@ staticCss`{
 		color: ${colors.text}
 	}
 	
+	a {
+		color: ${colors.primary}
+	}
+	
 	.chosen-container {
 		background-color: ${getBg(3)} !important;
 		border: 1px solid ${colors.primary} !important;

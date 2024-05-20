@@ -42,13 +42,20 @@ export class Observable {
 				p = "[symbol]";
 			}
 
+			if (p === "__isProxy") {
+				return true;
+			}
+			if (p === "__proxyTarget") {
+				return target;
+			}
+
 			let oldPath = paths.get(receiver);
 			let newPath = oldPath ? oldPath + "." + p : p;
 			if (this.#accessTracking) {
 				this.#accesses.add(newPath);
 			}
 
-			if (typeof data === "object" && !data._observableIgnore) {
+			if (data && typeof data === "object" && !data._observableIgnore) {
 				let ret = new Proxy(data, this.#proxyObj);
 				paths.set(ret, newPath);
 				return ret;
@@ -58,6 +65,10 @@ export class Observable {
 		};
 
 		this.#proxyObj.set = (target, p, newVal, receiver) => {
+			if (newVal?.__isProxy) {
+				newVal = newVal.__proxyTarget;
+			}
+
 			target[p] = newVal;
 			if (typeof p === "symbol") {
 				p = "[symbol]";

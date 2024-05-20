@@ -1,1 +1,0 @@
-export function cache<T, U>(cacheFn: (...args: T) => U, maxTime?: number): (...args: T) => U;
