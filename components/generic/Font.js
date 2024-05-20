@@ -3,7 +3,7 @@ import {css, html, useRef} from "../../helpers.js";
 /**
  * @param font {string}
  * @param elms {HTML}
- * @returns {HTML}
+ * @returns {HTML_EXTENDED}
  */
 export function Font(font, elms) {
 	let ref = useRef();

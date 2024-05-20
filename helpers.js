@@ -12,7 +12,8 @@
  * @property {(data: HTML | string) => Reference} reRender
  * @property {(data: HTML | string) => Reference} renderInner
  * @property {(...any[]) => Reference} css
- * @property {(css: Css | StaticCss) => Reference} toggleClass
+ * @property {(css: StaticCss) => Reference} toggleClass
+ * @property {(css: StaticCss) => Reference} setClass
  * @property {(callback: () => any, timeout: number) => Reference} interval
  * @property {(callback: () => any, timeout: number) => Reference} timeout
  * @property {() => boolean} exists
@@ -23,12 +24,14 @@
  */
 
 /**
- * @typedef {string} _HTML
- *
+ * @typedef {string} HTML
+ */
+/**
  * @typedef {Object} _HTML_PROPS
  * @property {() => Reference|undefined} getRef
- *
- * @typedef {_HTML & _HTML_PROPS} HTML
+ */
+/**
+ * @typedef {HTML & _HTML_PROPS} HTML_EXTENDED
  */
 
 /**
@@ -144,6 +147,14 @@ export function useRef() {
 
 			return this;
 		},
+		setClass: (css) => {
+			let elm = ref.getElm();
+			if (!elm) return;
+
+			elm.className = css.getAllClasses().join(" ");
+
+			return this;
+		},
 		interval: (callback, timeout) => {
 			if (!intervals.length) {
 				ref.onRemove(() => {
@@ -207,7 +218,7 @@ function onEventRaw(ref, event, callback) {
 }
 
 /**
- * @returns {HTML}
+ * @returns {HTML_EXTENDED}
  */
 function toHtmlString(asd) {
 	let strVal = "";
@@ -227,7 +238,7 @@ function toHtmlString(asd) {
 /**
  * Atm this works the exact same as a template literal without the html call
  * Maybe I do something with this in the future tho, + it helps syntax detection for editors
- * @returns HTML
+ * @returns HTML_EXTENDED
  */
 export function html(...args) {
 	return toHtmlString(args);
@@ -235,7 +246,7 @@ export function html(...args) {
 
 /**
  * @param ref
- * @returns {(...any) -> HTML}
+ * @returns {(...any) -> HTML_EXTENDED}
  */
 html.withRef = function (ref) {
 	return (...args) => {

@@ -15,7 +15,7 @@ let wrapperCss = staticCss.named("popupWrapper").css`{
 		flex-wrap: wrap;
 		overflow-y: scroll;
 		overscroll-behavior: none;
-		backdrop-filter: blur(2px);
+		backdrop-filter: blur(5px);
 		z-index: 2;
 		animation-name: ${thisClass.animation("fadein")};
 		animation-duration: .5s;
@@ -31,7 +31,7 @@ let wrapperCss = staticCss.named("popupWrapper").css`{
 			opacity: 1;
 		}
 		100% {
-			backdrop-filter: blur(2px);
+			backdrop-filter: blur(5px);
 			background-color: rgba(0, 0, 0, 0.5);
 		}
 	}
@@ -40,7 +40,11 @@ let wrapperCss = staticCss.named("popupWrapper").css`{
 let popupCss = staticCss.named("popup").css`${thisClass} {
 	margin: 10px;
 	width: min(560px, calc(100% - 40px));
-		/*border: 1px solid ${colors.primary_dark};*/
+}`;
+let centeredPopupCss = popupCss.named("centeredPopup").css`${thisClass} {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }`;
 
 let popupTopCss = staticCss.named("popupTop").css`${thisClass} {
@@ -73,11 +77,13 @@ let popupTitleCss = staticCss.named("popupTitle").css`${thisClass} {
 
 /**
  * @param title {string}
- * @param content {(close: () => undefined) => string|{toString: ()=>string}}
+ * @param content {(close: () => undefined) => HTML}
  * @param onclose {() => any}
  */
 export function Popup(title, content, onclose = () => 0) {
-	let ref = useRef();
+	let ref = useRef()/*.onRemove(settings.onChange((path, data) => {
+		ref.setClass(settings.get().centerPopups ? centeredPopupCss : popupCss);
+	}))*/;
 	let wrapper = document.createElement("modal");
 
 	let closeFn = () => {
@@ -90,7 +96,7 @@ export function Popup(title, content, onclose = () => 0) {
 
 	wrapper.className = wrapperCss.getAllClasses().join(" ");
 	wrapper.innerHTML = html.withRef(ref)`
-		<div ${popupCss} ${ref}>
+		<div ${/*settings.get().centerPopups ? centeredPopupCss : */popupCss} ${ref}>
 			<div ${popupTopCss} data-height="${height + 1}">
 				<div ${popupTitleCss}>
 					${title}
