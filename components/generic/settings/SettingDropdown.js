@@ -1,4 +1,4 @@
-import { html, thisClass, useRef } from "../../../helpers.js";
+import { html, Join, thisClass, useRef } from "../../../helpers.js";
 import { dropdownCss } from "../../../css.js";
 
 let settingDropdownCss = dropdownCss.named("setting-dropdown").css`${thisClass} {
@@ -17,9 +17,9 @@ export function SettingDropdown(selected, options, updateFn) {
 
 	return html`
 		<select ${dropdownRef} ${settingDropdownCss}>
-			${Object.entries(options).map(([key, value]) => html`
+			${Join(Object.entries(options).map(([key, value]) => html`
 				<option ${selected === key ? "selected" : ""} value="${key}">${value}</option>
-			`).join("")}
+			`))}
 		</select>
 	`;
 }

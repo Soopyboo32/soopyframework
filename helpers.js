@@ -21,6 +21,7 @@
  * @property {() => HTMLElement | null} getElm
  * @property {(callback: () => any) => Reference} onRemove
  * @property {(observer: IntersectionObserver) => Reference} observe
+ * @property {true} _isHtml
  */
 
 /**
@@ -29,10 +30,13 @@
 /**
  * @typedef {Object} _HTML_PROPS
  * @property {() => Reference|undefined} getRef
+ * @property {true} _isHtml
  */
 /**
  * @typedef {HTML & _HTML_PROPS} HTML_EXTENDED
  */
+
+import { UnsafeText } from "./components/generic/UnsafeText.js";
 
 /**
  * @returns {Reference}
@@ -188,7 +192,8 @@ export function useRef() {
 		observe: (observer) => {
 			setTimeout(() => ref.exists() && observer.observe(ref.getElm()));
 			return ref;
-		}
+		},
+		_isHtml: true,
 	};
 
 	return ref;
@@ -218,17 +223,62 @@ function onEventRaw(ref, event, callback) {
 }
 
 /**
+ * @returns {String}
+ */
+function templateToString(asd) {
+	let strVal = "";
+	asd[0].forEach((s, i) => {
+		strVal += s + (asd[i + 1] || "");
+	});
+	return strVal;
+}
+
+/**
  * @returns {HTML_EXTENDED}
  */
 function toHtmlString(asd) {
 	let strVal = "";
 	asd[0].forEach((s, i) => {
-		strVal += s + (asd[i + 1] || "");
+		let sectionStr = asd[i+1] || "";
+		if (asd[i + 1] && !asd[i + 1]._isHtml) {
+			sectionStr = UnsafeText(sectionStr.toString());
+		}
+
+		strVal += s + sectionStr;
 	});
 
 	let html = {
 		toString: () => strVal,
 		_ref: undefined,
+		_isHtml: true,
+		getRef: () => html._ref
+	};
+
+	return html;
+}
+
+/**
+ * @param {HTML[]} arr
+ * @param {HTML} joiner
+ */
+export function Join(arr, joiner=""){
+	let joinerStr = joiner || "";
+	if (joiner && !joiner._isHtml) {
+		joinerStr = UnsafeText(joiner.toString());
+	}
+
+	let data = arr.map(a=>{
+		let sectionStr = a || "";
+		if (a && !a._isHtml) {
+			sectionStr = UnsafeText(sectionStr.toString());
+		}
+		return sectionStr;
+	}).join(joinerStr);
+
+	let html = {
+		toString: () => data,
+		_ref: undefined,
+		_isHtml: true,
 		getRef: () => html._ref
 	};
 
@@ -246,7 +296,7 @@ export function html(...args) {
 
 /**
  * @param ref
- * @returns {(...any) -> HTML_EXTENDED}
+ * @returns {(...any) => HTML_EXTENDED}
  */
 html.withRef = function (ref) {
 	return (...args) => {
@@ -254,6 +304,24 @@ html.withRef = function (ref) {
 		ret._ref = ref;
 		return ret;
 	};
+};
+
+/**
+ * @returns {HTML_EXTENDED}
+ */
+html.unsafe = (...args) => {
+	let str;
+	if (typeof args[0] === "string") str = args[0];
+	else str = templateToString(args);
+
+	let html = {
+		toString: () => str,
+		_ref: undefined,
+		_isHtml: true,
+		getRef: () => html._ref
+	};
+
+	return html;
 };
 
 /**
@@ -291,6 +359,7 @@ function fromCssString(str) {
 	ret.toString = () => `style="${val.replaceAll("\"", "\\\"").replaceAll(/[\n\t]/g, "").replaceAll(/;;+/g, ";")}"`;
 	ret.getRawCss = () => val;
 	ret._classType = "DynamicCss";
+	ret._isHtml = true;
 
 	return ret;
 }
@@ -306,6 +375,7 @@ function fromCssString(str) {
  * @property {(StaticCss) => StaticCss} merge
  * @property {(string) => StaticCss} mergeNamed
  * @property {(string) => StaticCss} named
+ * @property {true} _isHtml
  *
  * @typedef {_StaticCss & _CssProps} StaticCss
  */
@@ -390,6 +460,7 @@ function fromStaticCssData(data, classes = [], nextName) {
 		return `class="${classes.join(" ")}"`;
 	};
 	ret._classType = "StaticCss";
+	ret._isHtml = true;
 
 	addCssToFile(ret);
 

@@ -100,7 +100,7 @@ export function Popup(title, content, onclose = () => 0) {
 			<div ${popupTopCss} data-height="${height + 1}">
 				<div ${popupTitleCss}>
 					${title}
-					${onclose ? `<div ${close} ${closeCss}>${Icon("close")}</div>` : ""}
+					${onclose ? html`<div ${close} ${closeCss}>${Icon("close")}</div>` : ""}
 				</div>
 			</div>
 			<div ${popupBottomCss} data-height="${height}">

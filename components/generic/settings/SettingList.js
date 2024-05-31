@@ -1,4 +1,4 @@
-import { html, staticCss, thisClass } from "../../../helpers.js";
+import { html, Join, staticCss, thisClass } from "../../../helpers.js";
 
 let settingsListCss = staticCss.named("settings-list").css`${thisClass} {
 	display: flex;
@@ -9,9 +9,7 @@ let settingsListCss = staticCss.named("settings-list").css`${thisClass} {
 export function SettingList(...settings) {
 	return html`
 		<div ${settingsListCss}>
-			${settings.map(s => html`
-				${s}
-			`).join("")}
+			${Join(settings)}
 		</div>
 	`;
 }

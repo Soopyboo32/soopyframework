@@ -1,4 +1,4 @@
-import {html, staticCss, thisClass, useRef} from "../../helpers.js";
+import { html, Join, staticCss, thisClass, useRef } from "../../helpers.js";
 
 let chunkCss = staticCss.named("chapterChunk").css`${thisClass} {
     content-visibility: visible;
@@ -19,10 +19,10 @@ export function Chunk(elms = [], chunkSize = 50) {
     })
 
     return html`
-		${chunks.map(([chunk, ref]) => html`
+		${Join(chunks.map(([chunk, ref]) => html`
 			<div ${chunkCss} ${ref}>
-				${chunk.join("")}
+				${Join(chunk)}
 			</div>
-		`).join("")}
+		`))}
     `
 }

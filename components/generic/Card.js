@@ -55,7 +55,7 @@ export function Card(title, contents, height=1, openFn) {
 			<div ${cardTopCss} data-height="${height+1}">
 				<div ${cardTitleCss}>
 					${title}
-					${openFn ? `<div ${ref} ${arrowCss}>${Icon("arrow_forward")}</div>` : ""}
+					${openFn ? html`<div ${ref} ${arrowCss}>${Icon("arrow_forward")}</div>` : ""}
 				</div>
 			</div>
 			<div ${cardBottomCss} data-height="${height}">
