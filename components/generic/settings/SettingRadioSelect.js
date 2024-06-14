@@ -1,4 +1,4 @@
-import { generateId, html, Join, staticCss, thisClass, useRef } from "../../../helpers.js";
+import { generateId, html, staticCss, thisClass, useRef } from "../../../helpers.js";
 import { colors, dropdownCss, getBg } from "../../../css.js";
 
 let radioCss = staticCss.named("radio-container").css`{
@@ -56,7 +56,7 @@ export function SettingRadioSelect(selected, options, updateFn) {
 	return html`
 		<div ${radioCss}>
 			<div ${selectedHighlightRef} ${selectedHighlightCss}></div>
-			${Join(Object.entries(options).map(([key, value]) => {
+			${Object.entries(options).map(([key, value]) => {
 				let labelRef = useRef().onClick(() => {
 					updateFn(key);
 					selected = key;
@@ -70,7 +70,7 @@ export function SettingRadioSelect(selected, options, updateFn) {
 						   value="${key}">
 					<label for="${key}" ${labelRef}>${value}</label>
 				`;
-			}))}
+			})}
 		</div>
 	`;
 }

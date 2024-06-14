@@ -1,4 +1,4 @@
-import { css, html, Join, staticCss, thisClass, useRef } from "../../helpers.js";
+import { css, html, staticCss, thisClass, useRef } from "../../helpers.js";
 
 let tableCss = staticCss.named("table").css`${thisClass} {
 	width: 100%;
@@ -20,14 +20,14 @@ export function Table(options, headerElms, ...rows) {
 			${options.centeredElms || options.rightElms ? "font-family: 'Open Sans', sans-serif;" : ""}
 		`}>
 			<tr>
-				${Join(headerElms.map(e => html`
-					<th>${e}</th>`))}
+				${headerElms.map(e => html`
+					<th>${e}</th>`)}
 			</tr>
-			${Join(rows.map(row => html`
+			${rows.map(row => html`
 				<tr>
-					${Join(row.map(r => html`
-						<td>${r}</td>`))}
-				</tr>`))}
+					${row.map(r => html`
+						<td>${r}</td>`)}
+				</tr>`)}
 		</table>
 	`;
 }
