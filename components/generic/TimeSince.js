@@ -44,9 +44,9 @@ let getTimeFns = {
 		if (months >= 1) return Math.floor(months) + " month" + (Math.floor(months) === 1 ? "" : "s");
 		if (days >= 1) return Math.floor(days) + " day" + (Math.floor(days) === 1 ? "" : "s");
 		if (hours >= 1) return Math.floor(hours) + " hour" + (Math.floor(hours) === 1 ? "" : "s");
-		if (minutes >= 1) return Math.floor(minutes) + " minuite" + (Math.floor(minutes) === 1 ? "" : "s");
+		if (minutes >= 1) return Math.floor(minutes) + " minute" + (Math.floor(minutes) === 1 ? "" : "s");
 		if (seconds >= 1) return Math.floor(seconds) + " second" + (Math.floor(seconds) === 1 ? "" : "s");
-		if (milliseconds >= 1) return Math.floor(milliseconds) + " milisecond" + (Math.floor(milliseconds) === 1 ? "" : "s");
+		if (milliseconds >= 1) return Math.floor(milliseconds) + " millisecond" + (Math.floor(milliseconds) === 1 ? "" : "s");
 		return "";
 	}
 };

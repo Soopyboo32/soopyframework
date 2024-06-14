@@ -237,15 +237,7 @@ function templateToString(asd) {
  * @returns {HTML_EXTENDED}
  */
 function toHtmlString(asd) {
-	let strVal = "";
-	asd[0].forEach((s, i) => {
-		let sectionStr = asd[i+1] || "";
-		if (asd[i + 1] && !asd[i + 1]._isHtml) {
-			sectionStr = UnsafeText(sectionStr.toString());
-		}
-
-		strVal += s + sectionStr;
-	});
+	let strVal = asd[0].map((s, i) => s + varToHtmlStr(asd[i + 1] ?? "")).join("");
 
 	let html = {
 		toString: () => strVal,
@@ -257,23 +249,26 @@ function toHtmlString(asd) {
 	return html;
 }
 
+function varToHtmlStr(asd){
+	if (Array.isArray(asd)) {
+		return Join(asd);
+	}
+
+	if (asd && !asd._isHtml) {
+		return UnsafeText(asd.toString());
+	}
+
+	return asd;
+}
+
 /**
  * @param {HTML[]} arr
  * @param {HTML} joiner
  */
 export function Join(arr, joiner=""){
-	let joinerStr = joiner || "";
-	if (joiner && !joiner._isHtml) {
-		joinerStr = UnsafeText(joiner.toString());
-	}
+	let joinerStr = varToHtmlStr(joiner);
 
-	let data = arr.map(a=>{
-		let sectionStr = a || "";
-		if (a && !a._isHtml) {
-			sectionStr = UnsafeText(sectionStr.toString());
-		}
-		return sectionStr;
-	}).join(joinerStr);
+	let data = arr.map(varToHtmlStr).join(joinerStr ?? "");
 
 	let html = {
 		toString: () => data,

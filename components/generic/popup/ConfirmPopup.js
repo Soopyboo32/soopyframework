@@ -22,7 +22,7 @@ let confirmPopupButtonNoCss = confirmPopupButtonCss.named("confirm-popup-button-
 /**
  * @param title {HTML}
  * @param description {HTML}
- * @param noButton {HTML}
+ * @param noButton {HTML|null}
  * @param yesButton {HTML}
  * @returns {Promise<boolean>}
  */
@@ -41,7 +41,8 @@ export function ConfirmPopup(title, description = "", noButton = "No", yesButton
 			return html`
 				${description}
 				<div ${confirmButtonContainerCss}>
-					<button ${confirmPopupButtonNoCss} ${denyButtonRef}>${noButton}</button>
+					${noButton !== null ? html`
+						<button ${confirmPopupButtonNoCss} ${denyButtonRef}>${noButton}</button>` : ""}
 					<button ${confirmPopupButtonCss} ${confirmButtonRef}>${yesButton}</button>
 				</div>
 			`
