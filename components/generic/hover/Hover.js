@@ -5,20 +5,21 @@ let endColor = "#180134";
 
 //TODO: better border
 let wrapperCss = staticCss.named("hover-wrapper").css`${thisClass} {
-	border: 1px solid #120313;
-	position: fixed;
-	border-radius: 3px;
-	background: linear-gradient(to bottom, ${startColor}, ${endColor});
-	padding: 2px;
-	width: max-content;
-	height: max-content;
-	z-index: 2;
+    border: 1px solid #120313;
+    position: fixed;
+    border-radius: 3px;
+    background: linear-gradient(to bottom, ${startColor}, ${endColor});
+    padding: 2px;
+    width: max-content;
+    height: max-content;
+    z-index: 2;
 }`;
 
 let internalCss = staticCss.named("hover-inner").css`${thisClass} {
-	padding: 4px;
-	background: #120313;
-	width: fit-content;
+    padding: 4px;
+    background: #120313;
+    width: fit-content;
+	max-width: inherit;
 }`;
 
 /**
@@ -40,12 +41,12 @@ export function Hover(ref, elm) {
 		document.body.appendChild(wrapper);
 		onScreen = true;
 		wrapperInner.innerHTML = data;
-		position(wrapper, e);
+		position(wrapper, wrapperInner, e);
 	});
 
 	ref.onHoverMove((e) => {
 		if (!onScreen) return;
-		position(wrapper, e);
+		position(wrapper, wrapperInner, e);
 	});
 
 	ref.onHoverExit((e) => {
@@ -65,13 +66,14 @@ export function Hover(ref, elm) {
  * @param wrapper {HTMLDivElement}
  * @param e {MouseEvent}
  */
-function position(wrapper, e) {
+function position(wrapper, wrapperInner, e) {
 	let x = e.x + 20;
 	let y = e.y - 30;
 	let right = false;
 	let bottom = false;
+	let maxWidth = Math.max(window.innerWidth - x, x) - 35;
 
-	if (x + wrapper.offsetWidth > window.innerWidth) {
+	if (x + Math.min(wrapper.offsetWidth, maxWidth) > window.innerWidth) {
 		x = window.innerWidth - e.x + 20;
 		right = true;
 	}
@@ -96,4 +98,6 @@ function position(wrapper, e) {
 	else wrapper.style.left = x + "px";
 	if (bottom) wrapper.style.bottom = y + "px";
 	else wrapper.style.top = y + "px";
+
+	wrapperInner.style.maxWidth = maxWidth + "px";
 }
