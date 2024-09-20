@@ -16,6 +16,7 @@
  * @property {(css: StaticCss) => Reference} setClass
  * @property {(callback: () => any, timeout: number) => Reference} interval
  * @property {(callback: () => any, timeout: number) => Reference} timeout
+ * @property {() => void} remove
  * @property {() => boolean} exists
  * @property {() => string} id
  * @property {() => HTMLElement | null} getElm
@@ -42,7 +43,7 @@ import { UnsafeText } from "./components/generic/UnsafeText.js";
  * @returns {Reference}
  */
 export function useRef() {
-	let id = generateId();
+	let id = "r_" + generateId();
 
 	let removeCb = [];
 	let intervals = [];
@@ -193,7 +194,12 @@ export function useRef() {
 			setTimeout(() => ref.exists() && observer.observe(ref.getElm()));
 			return ref;
 		},
+		remove: () => {
+			if (!ref.exists()) return;
+			ref.getElm().remove();
+		},
 		_isHtml: true,
+		_classType: "Reference"
 	};
 
 	return ref;
@@ -406,6 +412,7 @@ function toStaticCssData(asd) {
 				|| asd[i + 1].internal_isCssClassUUIDGetter === true
 				|| asd[i + 1].internal_isCssClassAnimGetter === true
 				|| asd[i + 1]._classType === "StaticCss"
+				|| asd[i + 1]._classType === "Reference"
 			)) {
 			css.push(asd[i + 1]);
 		} else if (asd[i + 1]) {
@@ -451,6 +458,7 @@ function fromStaticCssData(data, classes = [], nextName) {
 		if (d.internal_isCssClassUUIDGetter) return `${classes[classes.length - 1]}`;
 		if (d.internal_isCssClassAnimGetter) return `anim--${classes[classes.length - 1]}--${d.animId}`;
 		if (d._classType === "StaticCss") return `.${d.getClassName()}`;
+		if (d._classType === "Reference") return `#${d.getId()}`;
 
 		return d;
 	}).join("");
