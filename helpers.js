@@ -72,7 +72,7 @@ export function useRef() {
 			return ref;
 		},
 		onHoverEnter: (callback) => {
-			onEventRaw(ref, "mouseenter", callback);
+			onEventRaw(ref, "mouseover", callback);
 			return ref;
 		},
 		onHoverMove: (callback) => {
@@ -80,7 +80,7 @@ export function useRef() {
 			return ref;
 		},
 		onHoverExit: (callback) => {
-			onEventRaw(ref, "mouseleave", callback);
+			onEventRaw(ref, "mouseout", callback);
 			return ref;
 		},
 		onChange: (callback) => {
