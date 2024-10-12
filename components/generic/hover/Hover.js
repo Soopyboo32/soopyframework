@@ -55,7 +55,7 @@ export function Hover(ref, elm) {
 		document.body.removeChild(wrapper);
 	});
 
-	ref.onRemove((e) => {
+	ref.onRemove(() => {
 		if (!onScreen) return;
 		wrapper.remove();
 		wrapper = undefined;
