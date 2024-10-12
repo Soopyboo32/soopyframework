@@ -89,7 +89,7 @@ export function Popup(title, content, onclose = () => 0, extraContent = () => []
 
 	let closeFn = () => {
 		wrapper.remove();
-		onclose();
+		onclose?.();
 	};
 	let close = useRef().onClick(closeFn);
 

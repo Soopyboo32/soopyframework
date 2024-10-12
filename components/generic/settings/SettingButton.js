@@ -9,12 +9,18 @@ let settingButtonCss = buttonCss.named("setting-button").css`${thisClass} {
     border-radius: 10px;
 }`
 
-export function SettingButton(name, onClick) {
+let settingButtonFullWidth = settingButtonCss.named("setting-button-full").css`${thisClass} {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}`
+
+export function SettingButton(name, onClick, fullWidth = false) {
 	let buttonRef = useRef().onClick(e => {
 		onClick();
 	});
 
 	return html`
-		<button ${buttonRef} ${settingButtonCss}>${name}</button>
+		<button ${buttonRef} ${fullWidth ? settingButtonFullWidth : settingButtonCss}>${name}</button>
 	`;
 }
