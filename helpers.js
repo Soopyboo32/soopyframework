@@ -18,7 +18,7 @@
  * @property {(callback: () => any, timeout: number) => Reference} timeout
  * @property {() => void} remove
  * @property {() => boolean} exists
- * @property {() => string} id
+ * @property {() => string} getId
  * @property {() => HTMLElement | null} getElm
  * @property {(callback: () => any) => Reference} onRemove
  * @property {(observer: IntersectionObserver) => Reference} observe
@@ -206,22 +206,30 @@ export function useRef() {
 }
 
 /**
- * @param ref {Reference}
- * @param event
- * @param callback
+ * @param {Reference} ref
+ * @param {(elm: HTMLElement) => void} cb
  */
-function onEventRaw(ref, event, callback) {
+function withElm(ref, cb) {
 	let elm = ref.getElm();
 	if (elm) {
-		elm.addEventListener(event, (...args) => {
-			callback(...args);
-		});
+		cb(elm);
 		return;
 	}
 
 	setTimeout(() => {
 		let elm = ref.getElm();
 		if (!elm) return;
+		cb(elm);
+	});
+}
+
+/**
+ * @param ref {Reference}
+ * @param event
+ * @param callback
+ */
+function onEventRaw(ref, event, callback) {
+	withElm(ref, elm => {
 		elm.addEventListener(event, (...args) => {
 			callback(...args);
 		});
@@ -255,7 +263,7 @@ function toHtmlString(asd) {
 	return html;
 }
 
-function varToHtmlStr(asd){
+function varToHtmlStr(asd) {
 	if (Array.isArray(asd)) {
 		return Join(asd);
 	}
@@ -271,7 +279,7 @@ function varToHtmlStr(asd){
  * @param {HTML[]} arr
  * @param {HTML} joiner
  */
-export function Join(arr, joiner=""){
+export function Join(arr, joiner = "") {
 	let joinerStr = varToHtmlStr(joiner);
 
 	let data = arr.map(varToHtmlStr).join(joinerStr ?? "");
@@ -475,7 +483,7 @@ export let thisClass = {
 	uuid: {
 		internal_isCssClassUUIDGetter: true,
 	},
-	animation: (id)=>({
+	animation: (id) => ({
 		internal_isCssClassAnimGetter: true,
 		animId: id
 	})

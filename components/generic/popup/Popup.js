@@ -1,78 +1,78 @@
-import { html, Join, staticCss, thisClass, useRef } from "../../helpers.js";
-import { colors, getBg } from "../../css.js";
-import { Icon } from "./Icon.js";
+import { generateId, html, Join, staticCss, thisClass, useRef } from "../../../helpers.js";
+import { colors, getBg } from "../../../css.js";
+import { Icon } from "../Icon.js";
 
 let wrapperCss = staticCss.named("popupWrapper").css`{
-    ${thisClass} {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background-color: rgba(0, 0, 0, 0.5);
-        display: flex;
-        justify-content: space-evenly;
-        flex-wrap: wrap;
-        overflow-y: scroll;
-        overscroll-behavior: none;
-        backdrop-filter: blur(5px);
-        z-index: 2;
-        animation-name: ${thisClass.animation("fadein")};
-        animation-duration: .5s;
-    }
+	${thisClass} {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		background-color: rgba(0, 0, 0, 0.5);
+		display: flex;
+		justify-content: space-evenly;
+		flex-wrap: wrap;
+		overflow-y: scroll;
+		overscroll-behavior: none;
+		backdrop-filter: blur(5px);
+		z-index: 2;
+		animation-name: ${thisClass.animation("fadein")};
+		animation-duration: .5s;
+	}
 
-    @keyframes ${thisClass.animation("fadein")} {
-        0% {
-            opacity: 0;
-            backdrop-filter: blur(0);
-            background-color: rgba(0, 0, 0, 0);
-        }
-        50% {
-            opacity: 1;
-        }
-        100% {
-            backdrop-filter: blur(5px);
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-    }
+	@keyframes ${thisClass.animation("fadein")} {
+		0% {
+			opacity: 0;
+			backdrop-filter: blur(0);
+			background-color: rgba(0, 0, 0, 0);
+		}
+		50% {
+			opacity: 1;
+		}
+		100% {
+			backdrop-filter: blur(5px);
+			background-color: rgba(0, 0, 0, 0.5);
+		}
+	}
 }`;
 
 let popupCss = staticCss.named("popup").css`${thisClass} {
-    margin: 10px;
-    width: min(560px, calc(100% - 40px));
+	margin: 10px;
+	width: min(560px, calc(100% - 40px));
 }`;
 let centeredPopupCss = popupCss.named("centeredPopup").css`${thisClass} {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }`;
 
 let popupTopCss = staticCss.named("popupTop").css`${thisClass} {
-    padding: 10px;
-    background: ${getBg(1)};
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    border-bottom: 2px solid ${colors.text};
+	padding: 10px;
+	background: ${getBg(1)};
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	border-bottom: 2px solid ${colors.text};
 }`;
 let popupBottomCss = staticCss.named("popupBottom").css`${thisClass} {
-    padding: 10px;
-        /*background: ${getBg(0)};*/
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
+	padding: 10px;
+		/*background: ${getBg(0)};*/
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
 }`;
 
 //TODO: hover anim, more button looks, ect
 let closeCss = staticCss.named("popupClose").css`${thisClass} {
-    /*float: right;*/
-    cursor: pointer;
+	/*float: right;*/
+	cursor: pointer;
 }`;
 
 let popupTitleCss = staticCss.named("popupTitle").css`${thisClass} {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: nowrap;
-    font-size: 22px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: nowrap;
+	font-size: 22px;
 }`;
 
 /**
@@ -93,6 +93,18 @@ export function Popup(title, content, onclose = () => 0, extraContent = () => []
 	};
 	let close = useRef().onClick(closeFn);
 
+	if (onclose) {
+		wrapper.addEventListener("click", e => {
+			if (e.target === wrapper) closeFn();
+		});
+		let keyDownEv = e => {
+			if (e.key === "Escape") closeFn();
+			console.log(e);
+		};
+		document.addEventListener("keydown", keyDownEv);
+		close.onRemove(() => document.removeEventListener("keydown", keyDownEv));
+	}
+
 	let height = 0;
 
 	wrapper.className = wrapperCss.getAllClasses().join(" ");
@@ -101,23 +113,24 @@ export function Popup(title, content, onclose = () => 0, extraContent = () => []
 			<div ${popupTopCss} data-height="${height + 1}">
 				<div ${popupTitleCss}>
 					${title}
-					${onclose ? html` <div ${close} ${closeCss}>${Icon("close")}</div>` : ""}
+					${onclose ? html`
+		<div ${close} ${closeCss}>${Icon("close")}</div>` : ""}
 				</div>
 			</div>
 			<div ${popupBottomCss} data-height="${height}">
 				${content(closeFn)}
 			</div>
 			${extraContent().map(([title, content]) => html`
-				<br>
-				<div ${popupTopCss} data-height="${height + 1}">
-					<div ${popupTitleCss}>
-						${title}
-					</div>
-				</div>
-				<div ${popupBottomCss} data-height="${height}">
-					${content}
-				</div>
-			`)}
+		<br>
+		<div ${popupTopCss} data-height="${height + 1}">
+			<div ${popupTitleCss}>
+				${title}
+			</div>
+		</div>
+		<div ${popupBottomCss} data-height="${height}">
+			${content}
+		</div>
+	`)}
 		</div>
 	`;
 
@@ -148,16 +161,17 @@ export function MultiPopup(content, onclose = () => 0) {
 	wrapper.innerHTML = html.withRef(ref)`
 		<div ${/*settings.get().centerPopups ? centeredPopupCss : */popupCss} ${ref}>
 			${Join(cards.map(([title, content], index) => html`
-				<div ${popupTopCss} data-height="${height + 1}">
-					<div ${popupTitleCss}>
-						${title}
-						${onclose && index===0 ? html` <div ${close} ${closeCss}>${Icon("close")}</div>` : ""}
-					</div>
-				</div>
-				<div ${popupBottomCss} data-height="${height}">
-					${content}
-				</div>
-			`), html`<br>`)}
+		<div ${popupTopCss} data-height="${height + 1}">
+			<div ${popupTitleCss}>
+				${title}
+				${onclose && index === 0 ? html`
+					<div ${close} ${closeCss}>${Icon("close")}</div>` : ""}
+			</div>
+		</div>
+		<div ${popupBottomCss} data-height="${height}">
+			${content}
+		</div>
+	`), html`<br>`)}
 		</div>
 	`;
 

@@ -1,4 +1,4 @@
-import { Popup } from "../Popup.js";
+import { Popup } from "./Popup.js";
 import { html, staticCss, thisClass, useRef } from "../../../helpers.js";
 import { buttonCss, colors, getBg } from "../../../css.js";
 
