@@ -174,7 +174,7 @@ export class Observable {
 
 	/**
 	 * Will update the HTML live when this observable changes
-	 * @param {()=>HTML} fn
+	 * @param {()=>any} fn
 	 * @returns {HTML}
 	 */
 	observe(fn) {
