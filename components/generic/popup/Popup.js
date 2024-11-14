@@ -99,7 +99,6 @@ export function Popup(title, content, onclose = () => 0, extraContent = () => []
 		});
 		let keyDownEv = e => {
 			if (e.key === "Escape") closeFn();
-			console.log(e);
 		};
 		document.addEventListener("keydown", keyDownEv);
 		close.onRemove(() => document.removeEventListener("keydown", keyDownEv));
