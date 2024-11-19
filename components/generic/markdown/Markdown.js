@@ -1,6 +1,7 @@
 import { html, Join, staticCss, thisClass } from "../../../helpers.js";
 import { UnsafeText } from "../UnsafeText.js";
 import { colors } from "../../../css.js";
+import { Img } from "../../vanilla/img.js";
 
 let titleCss = staticCss.named("titleCss").css`${thisClass} {
     margin-top: 0;
@@ -29,8 +30,14 @@ let inlineCodeBlockCodeCss = staticCss.named("inlineCodeBlockCode").css`${thisCl
     padding: 2px;
 }`
 
-export function Markdown(text) {
-	let lines = text.split("\n");
+export function Markdown(text, {
+	autodetectImagesFrom = [],
+	autodetectLinks = true,
+	imageUrlReplace = () => {
+	}
+} = {}) {
+	let linksMap = autoDetectLinks(autodetectImagesFrom, autodetectLinks, imageUrlReplace);
+	let lines = text.split("\n").map(linksMap);
 	lines.reverse();
 	let components = [];
 	while (lines.length > 0) {
@@ -39,6 +46,28 @@ export function Markdown(text) {
 	return html`
 		${components}
 	`;
+}
+
+function autoDetectLinks(autodetectImagesFrom, autodetectLinks, imageUrlReplace) {
+	return text => {
+		let basicUrlRegex = /(?<!]\()(?<!\[)(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])/igm
+
+		if (autodetectImagesFrom) text = text.replace(basicUrlRegex, match => {
+			if (!match.endsWith(".png") && !match.endsWith(".jpg") && !match.endsWith(".gif") && !match.endsWith(".jpeg")) return match;
+
+			for (let site of autodetectImagesFrom) {
+				if (match.startsWith(site)) {
+					return "![" + match + "](" + imageUrlReplace(match) + ")";
+				}
+			}
+
+			return match;
+		});
+
+		if (autodetectLinks) text = text.replace(basicUrlRegex, "[$&]($&)");
+
+		return text;
+	}
 }
 
 function parseMarkdownComponent(lineProducer, linePeaker) {
@@ -154,8 +183,16 @@ function parseMarkdownLine(line) {
 	if (isCode) {
 		ret.push("</code>");
 	}
+	return html.unsafe(applyLinksImages(ret.join("")));
+}
 
-	return html.unsafe(ret.join(""));
+function applyLinksImages(text) {
+	let imageRegex = /!\[.*?]\((.*?)\)/g
+	let urlRegex = /\[(.*?)]\(.*?\)/g
+
+	return text
+		.replace(imageRegex, (match, url) => Img(url, {cssRaw: `max-width: 100%;`}))
+		.replace(urlRegex, "<a href='$1' target='_blank'>$1</a>")
 }
 
 function applyCodeFormatting(lines, lang) {
