@@ -3,6 +3,7 @@ import {buttonCss} from "../../css.js";
 
 let peekableDropdownContainerCss = staticCss.named("peekableDropdownContainer").css`${thisClass} {
     position: relative;
+	interpolate-size: allow-keywords;
 }`
 
 let buttonContainerCss = staticCss.named("peekableDropdownButtonContainer").css`${thisClass} {
@@ -13,7 +14,7 @@ let buttonContainerCss = staticCss.named("peekableDropdownButtonContainer").css`
 
 let peekableDropdownCss = staticCss.named("peekableDropdown").css`${thisClass} {
     height: 150px;
-    transition: height 1s;
+    transition: height 0.3s;
     overflow: hidden;
     -webkit-mask-image: -webkit-linear-gradient(
             top,
@@ -22,8 +23,8 @@ let peekableDropdownCss = staticCss.named("peekableDropdown").css`${thisClass} {
 }`
 
 let peekableDropdownOpenCss = staticCss.named("peekableDropdownOpen").css`${thisClass} {
+    transition: height 0.3s;
     height: auto;
-    margin-bottom: 40px;
     -webkit-mask-image: none;
 }`
 
