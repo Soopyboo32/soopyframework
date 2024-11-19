@@ -28,19 +28,9 @@ let peekableDropdownOpenCss = staticCss.named("peekableDropdownOpen").css`${this
     -webkit-mask-image: none;
 }`
 
-let peekableDropdownOpenButtonCss = buttonCss.named("peekableDropdownOpenButton").css`{
-    ${thisClass} {
-        position: absolute;
-        bottom: 0;
-    }
-
-    ${thisClass}::after {
-        content: "OPEN";
-    }
-
-    ${peekableDropdownOpenCss} + ${thisClass}::after {
-        content: "CLOSE";
-    }
+let peekableDropdownOpenButtonCss = buttonCss.named("peekableDropdownOpenButton").css`${thisClass} {
+	position: absolute;
+	bottom: 0;
 }`
 
 export function PeekableDropdown(content, css = undefined, contentCss = undefined, isOpen = false, onOpen = newVal => {
@@ -50,6 +40,7 @@ export function PeekableDropdown(content, css = undefined, contentCss = undefine
 	let buttonRef = useRef().onClick(() => {
 		dropdownContentRef.toggleClass(peekableDropdownOpenCss);
 		isOpen = !isOpen;
+		buttonRef.renderInner(isOpen ? "CLOSE" : "OPEN");
 		onOpen(isOpen);
 	});
 
@@ -65,7 +56,7 @@ export function PeekableDropdown(content, css = undefined, contentCss = undefine
             <div ${dropdownContentRef} ${contentContainerCss}>
                 ${content}
             </div>
-            <div ${buttonContainerCss}><button ${peekableDropdownOpenButtonCss} ${buttonRef}></button></div>
+            <div ${buttonContainerCss}><button ${peekableDropdownOpenButtonCss} ${buttonRef}>${isOpen ? "CLOSE" : "OPEN"}</button></div>
         </div>
     `
 }
