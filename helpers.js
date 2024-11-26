@@ -15,7 +15,7 @@
  * @property {(css: StaticCss) => Reference} toggleClass
  * @property {(css: StaticCss) => Reference} setClass
  * @property {(callback: () => any, timeout: number) => Reference} interval
- * @property {(callback: () => any, timeout: number) => Reference} timeout
+ * @property {(callback: () => any, timeout?: number) => Reference} timeout
  * @property {() => void} remove
  * @property {() => boolean} exists
  * @property {() => string} getId
