@@ -56,7 +56,7 @@ let getTimeFns = {
 
 		let ret = "";
 		if (days >= 1) ret += Math.floor(days) + "d ";
-		if (hours >= 1) ret += Math.floor(hours) + "h ";
+		if (hours >= 1) ret += Math.floor(hours % 24) + "h ";
 		if (minutes >= 1) ret += Math.floor(minutes % 60) + "m ";
 		if (seconds >= 1) ret += Math.floor(seconds % 60) + "s";
 
