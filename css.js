@@ -95,8 +95,7 @@ export let buttonCss = staticCss.named("button").css`{
         text-decoration: none; /* remove underline from <a> tags */
     }
 
-
-    ${thisClass}:hover {
+    ${thisClass}:hover:not([disabled]) {
         background-color: ${colors.primary_dark_hover};
         cursor: pointer;
     }

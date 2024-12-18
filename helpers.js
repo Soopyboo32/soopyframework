@@ -528,3 +528,15 @@ export function numberWithCommas(x) {
 	parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	return parts.join(".");
 }
+
+export function deepClone(obj) {
+	if (Array.isArray(obj)) {
+		return obj.map(deepClone);
+	}
+
+	if (typeof obj === "object") {
+		return Object.fromEntries(Object.entries(obj).map(([k, v]) => [k, deepClone(v)]));
+	}
+
+	return obj;
+}
