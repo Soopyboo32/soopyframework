@@ -8,7 +8,8 @@ export function Img(url, {
 	lazyLoad = true,
 	fadeIfLoaded = false,
 	width = undefined,
-	height = undefined
+	height = undefined,
+	draggable = undefined,
 } = {}) {
 	let imageRef = useRef();
 
@@ -31,6 +32,7 @@ export function Img(url, {
             ${width ? `width=${width}` : ""}
             ${height ? `height=${height}` : ""}
             ${lazyLoad ? `loading="lazy"` : ""}
+            ${draggable !== undefined ? `draggable="${draggable}"` : ""}
             ${shouldFade ? `onload="setTimeout(()=>this.style.opacity=1)"` : ""}
 		>
     `;

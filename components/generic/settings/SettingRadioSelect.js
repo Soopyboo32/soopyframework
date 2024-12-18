@@ -7,6 +7,7 @@ let radioCss = staticCss.named("radio-container").css`{
 		border-radius: 10px;
 		border: 1px solid ${colors.grey};
 		padding: 3px;
+		z-index: 0;
 	}
 
 	${thisClass} > input[type="radio"] {

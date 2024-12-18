@@ -280,6 +280,8 @@ function varToHtmlStr(asd) {
  * @param {HTML} joiner
  */
 export function Join(arr, joiner = "") {
+	if (!arr) return "";
+
 	let joinerStr = varToHtmlStr(joiner);
 
 	let data = arr.map(varToHtmlStr).join(joinerStr ?? "");
