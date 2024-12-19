@@ -531,6 +531,11 @@ export function numberWithCommas(x) {
 	return parts.join(".");
 }
 
+/**
+ * @template T
+ * @param {T} obj
+ * @returns {T}
+ */
 export function deepClone(obj) {
 	if (Array.isArray(obj)) {
 		return obj.map(deepClone);
