@@ -70,6 +70,10 @@ staticCss`{
 	.chosen-container-multi .chosen-choices li.search-choice {
 		color: ${colors.text} !important;
 	}
+	
+	.chosen-container-active .chosen-choices li.search-field .chosen-search-input[type="text"] {
+		color: ${colors.text} !important;
+	}
 }`;
 
 export let buttonCss = staticCss.named("button").css`{
