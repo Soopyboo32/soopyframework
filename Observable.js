@@ -178,23 +178,34 @@ export class Observable {
 	 * @returns {HTML}
 	 */
 	observe(fn) {
-		this.pushAccessTracking();
+		return Observable.observeAll(this, fn);
+	}
+
+	/**
+	 * Will update the HTML live when any of the observables are updated
+	 * @returns {HTML}
+	 */
+	static observeAll(...stuff) {
+		let fn = stuff.pop();
+
+		stuff.forEach(o => o.pushAccessTracking());
 		let contents = fn();
-		let accesses = this.popAccessTracking();
+		let accesses = stuff.map(o => o.popAccessTracking());
 		//TODO: make this a debug function like Observable.debug() or smth
-		// console.log(accesses);
+		// console.log(accesses, stuff);
 
-		let ref = useRef().onRemove(this.onChange(path => {
-			if (!accesses.has(path)) return;
+		let cbs = stuff.map((o, i) => o.onChange(path => {
+			if (!accesses[i].has(path)) return;
 
-			accesses.clear();
+			accesses = []
 			setTimeout(() => { //prevent multiple re-renders in 1 update if its setting multiple things
-				this.pushAccessTracking();
+				stuff.forEach(o => o.pushAccessTracking());
 				ref.renderInner(fn());
-				accesses = this.popAccessTracking();
-				// console.log(accesses);
+				accesses = stuff.map(o => o.popAccessTracking());
+				// console.log(accesses, stuff);
 			}, 0);
-		}));
+		}))
+		let ref = useRef().onRemove(() => cbs.forEach(cb => cb()));
 
 		return html`<span ${ref}>${contents}</span>`;
 	}
