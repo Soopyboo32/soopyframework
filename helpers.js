@@ -496,14 +496,14 @@ let generatedIds = new Set([""]);
 function generateClassName(id = "") {
 	let testId = id;
 	while (generatedIds.has(testId)) {
-		testId = id + "_" + Math.floor(Math.random() * 2400000).toString(16);
+		testId = id + "_" + generateId();
 	}
 	generatedIds.add(testId);
 	return testId;
 }
 
 export function generateId() {
-	return Math.floor(Math.random() * 2400000).toString(16);
+	return Math.floor(Math.random() * 2400000).toString(16) + Math.floor(Math.random() * 2400000).toString(16);
 }
 
 let styleElm = document.getElementById("css");
