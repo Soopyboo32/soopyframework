@@ -1,7 +1,11 @@
-import { html, useRef } from "./helpers.js";
+import { html, staticCss, thisClass, useRef } from "./helpers.js";
 
 /** @type {WeakMap<Proxy, String>} */
 let paths = new WeakMap();
+
+let observableLiveCss = staticCss.named("observableLive").css`${thisClass} {
+	display: contents;
+}`;
 
 /**
  * @template T
@@ -207,7 +211,7 @@ export class Observable {
 		}))
 		let ref = useRef().onRemove(() => cbs.forEach(cb => cb()));
 
-		return html`<span ${ref}>${contents}</span>`;
+		return html`<span ${ref} ${observableLiveCss}>${contents}</span>`;
 	}
 
 	/**
