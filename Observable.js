@@ -199,7 +199,7 @@ export class Observable {
 		// console.log(accesses, stuff);
 
 		let cbs = stuff.map((o, i) => o.onChange(path => {
-			if (!accesses[i].has(path)) return;
+			if (accesses.length === 0 || !accesses[i].has(path)) return;
 
 			accesses = []
 			setTimeout(() => { //prevent multiple re-renders in 1 update if its setting multiple things

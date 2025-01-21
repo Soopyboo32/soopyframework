@@ -2,6 +2,7 @@
  * @typedef {Object} Reference
  * @property {(callback: (this: HTMLElement, ev: MouseEvent) => any) => Reference} onClick
  * @property {(callback: (this: HTMLElement, ev: MouseEvent) => any) => Reference} onMouseDown
+ * @property {(callback: (this: HTMLElement, ev: MouseEvent) => any) => Reference} onMouseUp
  * @property {(callback: () => any) => Reference} onEnterKey
  * @property {(callback: (MouseEvent) => any) => Reference} onHoverEnter
  * @property {(callback: (MouseEvent) => any) => Reference} onHoverMove
@@ -61,6 +62,10 @@ export function useRef() {
 		},
 		onMouseDown: (callback) => {
 			onEventRaw(ref, "mousedown", callback);
+			return ref;
+		},
+		onMouseUp: (callback) => {
+			onEventRaw(ref, "mouseup", callback);
 			return ref;
 		},
 		onEnterKey: (callback) => {
