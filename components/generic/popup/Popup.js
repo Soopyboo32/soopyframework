@@ -159,7 +159,7 @@ export function MultiPopup(content, onclose = () => 0) {
 	wrapper.className = wrapperCss.getAllClasses().join(" ");
 	wrapper.innerHTML = html.withRef(ref)`
 		<div ${/*settings.get().centerPopups ? centeredPopupCss : */popupCss} ${ref}>
-		${Join(cards.map(([title, content], index) => html`
+		${Join(cards.filter(Boolean).map(([title, content], index) => html`
 			<div ${popupTopCss} data-height="${height + 1}">
 				<div ${popupTitleCss}>
 					${title}
