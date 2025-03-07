@@ -1,6 +1,7 @@
 import { generateId, html, Join, staticCss, thisClass, useRef } from "../../../helpers.js";
 import { colors, getBg } from "../../../css.js";
 import { Icon } from "../Icon.js";
+import { settings } from "../../../settings.js";
 
 let wrapperCss = staticCss.named("popupWrapper").css`{
 	${thisClass} {
@@ -95,6 +96,7 @@ export function Popup(title, content, onclose = () => 0, extraContent = () => []
 
 	if (onclose) {
 		wrapper.addEventListener("click", e => {
+			if (settings.get().components.popup.clickOutsideToClose) return;
 			if (e.target === wrapper) closeFn();
 		});
 		let keyDownEv = e => {
@@ -108,7 +110,7 @@ export function Popup(title, content, onclose = () => 0, extraContent = () => []
 
 	wrapper.className = wrapperCss.getAllClasses().join(" ");
 	wrapper.innerHTML = html.withRef(ref)`
-		<div ${/*settings.get().centerPopups ? centeredPopupCss : */popupCss} ${ref}>
+		<div ${settings.get().components.popup.verticalCenter ? centeredPopupCss : popupCss} ${ref}>
 			<div ${popupTopCss} data-height="${height + 1}">
 				<div ${popupTitleCss}>
 					${title}
@@ -152,13 +154,25 @@ export function MultiPopup(content, onclose = () => 0) {
 	};
 	let close = useRef().onClick(closeFn);
 
+	if (onclose) {
+		wrapper.addEventListener("click", e => {
+			if (settings.get().components.popup.clickOutsideToClose) return;
+			if (e.target === wrapper) closeFn();
+		});
+		let keyDownEv = e => {
+			if (e.key === "Escape") closeFn();
+		};
+		document.addEventListener("keydown", keyDownEv);
+		close.onRemove(() => document.removeEventListener("keydown", keyDownEv));
+	}
+
 	let height = 0;
 
 	let cards = content(closeFn);
 
 	wrapper.className = wrapperCss.getAllClasses().join(" ");
 	wrapper.innerHTML = html.withRef(ref)`
-		<div ${/*settings.get().centerPopups ? centeredPopupCss : */popupCss} ${ref}>
+		<div ${settings.get().components.popup.verticalCenter ? centeredPopupCss : popupCss} ${ref}>
 		${Join(cards.filter(Boolean).map(([title, content], index) => html`
 			<div ${popupTopCss} data-height="${height + 1}">
 				<div ${popupTitleCss}>
