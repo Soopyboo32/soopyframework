@@ -96,7 +96,7 @@ export function Popup(title, content, onclose = () => 0, extraContent = () => []
 
 	if (onclose) {
 		wrapper.addEventListener("click", e => {
-			if (settings.get().components.popup.clickOutsideToClose) return;
+			if (!settings.get().components.popup.clickOutsideToClose) return;
 			if (e.target === wrapper) closeFn();
 		});
 		let keyDownEv = e => {
@@ -156,7 +156,7 @@ export function MultiPopup(content, onclose = () => 0) {
 
 	if (onclose) {
 		wrapper.addEventListener("click", e => {
-			if (settings.get().components.popup.clickOutsideToClose) return;
+			if (!settings.get().components.popup.clickOutsideToClose) return;
 			if (e.target === wrapper) closeFn();
 		});
 		let keyDownEv = e => {
