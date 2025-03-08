@@ -245,6 +245,20 @@ export class Observable {
 		});
 	}
 
+	observeEffect(fn) {
+		this.pushAccessTracking();
+		fn(this.data);
+		let accesses = this.popAccessTracking();
+
+		this.onChange(path => {
+			if (!accesses.has(path)) return;
+
+			this.pushAccessTracking();
+			fn(this.data)
+			accesses = this.popAccessTracking();
+		});
+	}
+
 	pushAccessTracking() {
 		this.#accessTracking = true;
 	}
