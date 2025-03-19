@@ -6,6 +6,7 @@ let settingElmCss = staticCss.named("setting-element").css`${thisClass} {
 	position: relative;
 	display: flex;
 	align-items: center;
+	gap: 10px;
 	justify-content: space-between;
 	background-color: transparent;
 }`;
