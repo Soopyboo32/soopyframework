@@ -10,6 +10,8 @@
  * @property {(callback: (Event) => any) => Reference} onChange
  * @property {(callback: (KeyboardEvent) => any) => Reference} onKeyUp
  * @property {(callback: (KeyboardEvent) => any) => Reference} onKeyDown
+ * @property {<K extends keyof HTMLElementEventMap>(type: K, callback: (ev: HTMLElementEventMap[K]) => any) => Reference} onEvent
+ * @property {() => boolean} isHovered
  * @property {(data: HTML | string) => Reference} reRender
  * @property {(data: HTML | string) => Reference} renderInner
  * @property {(...any[]) => Reference} css
@@ -99,6 +101,13 @@ export function useRef() {
 		onKeyUp: (callback) => {
 			onEventRaw(ref, "keyup", callback);
 			return ref;
+		},
+		onEvent: (type, callback) => {
+			onEventRaw(ref, type, callback);
+			return ref;
+		},
+		isHovered: () => {
+			return !!document.querySelector("#" + id + ":hover")
 		},
 		reRender: (data) => {
 			let elm = ref.getElm();

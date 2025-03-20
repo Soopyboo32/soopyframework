@@ -19,14 +19,15 @@ let internalCss = staticCss.named("hover-inner").css`${thisClass} {
     padding: 4px;
     background: #120313;
     width: fit-content;
-	max-width: inherit;
+    max-width: inherit;
 }`;
 
 /**
  * @param ref {Reference}
  * @param elm {() => HTML | undefined}
+ * @param options {{shouldApply: (elm: EventTarget) => boolean}}
  */
-export function Hover(ref, elm) {
+export function Hover(ref, elm, {shouldApply = () => true} = {}) {
 	let wrapper = document.createElement("div");
 	wrapper.className = wrapperCss.getAllClasses().join(" ");
 	let wrapperInner = document.createElement("div");
@@ -36,6 +37,8 @@ export function Hover(ref, elm) {
 	let onScreen = false;
 
 	ref.onHoverEnter((e) => {
+		if (onScreen) return;
+		if (!shouldApply(e.relatedTarget)) return;
 		let data = elm();
 		if (!data) return;
 		document.body.appendChild(wrapper);
@@ -53,6 +56,7 @@ export function Hover(ref, elm) {
 		if (!onScreen) return;
 		wrapperInner.innerHTML = "";
 		document.body.removeChild(wrapper);
+		onScreen = false;
 	});
 
 	ref.onRemove(() => {
