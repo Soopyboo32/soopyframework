@@ -53,6 +53,8 @@ export function SettingRadioSelect(selected, options, updateFn, {allowWrap = fal
 	let labels = {};
 
 	function updateHighlightLoc() {
+		let elm = selectedHighlightRef.getElm()
+		if (!elm) return
 		let selectedLabel = labels[selected];
 
 		selectedHighlightRef.getElm().style.top = (selectedLabel.getElm().offsetTop - 5) + "px";
