@@ -3,6 +3,8 @@
  * @property {(callback: (this: HTMLElement, ev: MouseEvent) => any) => Reference} onClick
  * @property {(callback: (this: HTMLElement, ev: MouseEvent) => any) => Reference} onMouseDown
  * @property {(callback: (this: HTMLElement, ev: MouseEvent) => any) => Reference} onMouseUp
+ * @property {(callback: (this: HTMLElement, ev: TouchEvent) => any) => Reference} onTouchStart
+ * @property {(callback: (this: HTMLElement, ev: TouchEvent) => any) => Reference} onTouchEnd
  * @property {(callback: () => any) => Reference} onEnterKey
  * @property {(callback: (MouseEvent) => any) => Reference} onHoverEnter
  * @property {(callback: (MouseEvent) => any) => Reference} onHoverMove
@@ -68,6 +70,14 @@ export function useRef() {
 		},
 		onMouseUp: (callback) => {
 			onEventRaw(ref, "mouseup", callback);
+			return ref;
+		},
+		onTouchStart: (callback) => {
+			onEventRaw(ref, "touchstart", callback);
+			return ref;
+		},
+		onTouchEnd: (callback) => {
+			onEventRaw(ref, "touchend", callback);
 			return ref;
 		},
 		onEnterKey: (callback) => {
