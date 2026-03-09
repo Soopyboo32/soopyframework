@@ -143,7 +143,7 @@ export class Observable {
 			this.#accesses.add("");
 		}
 
-		if (typeof this.#data !== "object" || this.#data._observableIgnore) {
+		if (!this.#data || typeof this.#data !== "object" || this.#data._observableIgnore) {
 			return this.#data;
 		}
 
